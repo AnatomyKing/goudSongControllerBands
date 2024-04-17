@@ -6,9 +6,10 @@
 
 @section('content')
     <h1>Add New Song</h1>
-    <form method="POST" action="{{ url('/songs') }}">
+    <form method="POST" action="{{ route('songs.store') }}">
         @csrf
-        <input type="text" name="song_title" placeholder="Song Title">
+        <input type="text" name="title" placeholder="Title">
+        <input type="text" name="singer" placeholder="Singer">
         <button type="submit">Add Song</button>
     </form>
 @endsection

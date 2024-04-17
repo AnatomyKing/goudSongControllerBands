@@ -1,23 +1,21 @@
 <?php
 
-// SongController.php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Song;
 
 class SongController extends Controller
 {
     public function index()
     {
-        $songs = session('songs', []); // Retrieve songs array from session, default to empty array
+        $songs = Song::all();
         return view('songs.index', compact('songs'));
     }
 
-    public function show($index)
+    public function show($id)
     {
-        $songs = session('songs', []); // Retrieve songs array from session, default to empty array
-        $song = $songs[$index];
+        $song = Song::findOrFail($id);
         return view('songs.show', compact('song'));
     }
 
@@ -29,33 +27,39 @@ class SongController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'song_title' => 'required',
+            'title' => 'required|max:100',
+            'singer' => 'nullable',
         ]);
 
-        $songs = session('songs', []); // Retrieve songs array from session, default to empty array
-        $songs[] = $request->input('song_title');
-        session(['songs' => $songs]); // Store updated songs array in session
+        Song::create($request->all());
 
         return redirect('/songs');
     }
 
-    public function edit($index)
+    public function edit($id)
     {
-        $songs = session('songs', []); // Retrieve songs array from session, default to empty array
-        $song = $songs[$index];
-        return view('songs.edit', compact('song', 'index'));
+        $song = Song::findOrFail($id);
+        return view('songs.edit', compact('song'));
     }
 
-    public function update(Request $request, $index)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'song_title' => 'required',
+            'title' => 'required|max:100',
+            'singer' => 'nullable',
         ]);
 
-        $songs = session('songs', []); // Retrieve songs array from session, default to empty array
-        $songs[$index] = $request->input('song_title');
-        session(['songs' => $songs]); // Store updated songs array in session
+        $song = Song::findOrFail($id);
+        $song->update($request->all());
 
+        return redirect('/songs');
+    }
+
+    public function destroy($id)
+    {
+        $song = Song::findOrFail($id);
+        $song->delete();
+    
         return redirect('/songs');
     }
 }

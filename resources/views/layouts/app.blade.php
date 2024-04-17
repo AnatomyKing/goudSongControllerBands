@@ -10,7 +10,7 @@
 <body>
     <header>
         <!-- Your header content goes here -->
-        <h1>My Laravel App</h1>
+        <h1>DataBase Song Editor</h1>
     </header>
 
     <main>
@@ -19,7 +19,7 @@
 
     <footer>
         <!-- Your footer content goes here -->
-        <p>&copy; 2024 My Laravel App</p>
+        <p>&copy; Luuk Musch SD2D</p>
     </footer>
 </body>
 </html>
